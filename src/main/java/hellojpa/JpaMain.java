@@ -21,8 +21,9 @@ public class JpaMain {
             Member ms = new Member(4L, "b");
             //System.out.println("result = " + (ms==ms)); //true
             //System.out.println("result = " + (ms==mm)); //false
+            Member member1 = em.find(Member.class, 3L);
             System.out.println("======"); //실행해보면 이 전에 절대 쿼리 날라가지 않는다.
-
+/*
             //엔티티를 생성한 상태(비영속)
             Member member = new Member();
             member.setId(4L);
@@ -49,6 +50,8 @@ public class JpaMain {
             //수정
             member1.setName("helloJPA"); //변경감지! JPA가 트랜잭션 커밋 직전에 데이터 변경 유무 체크한다
             //절대로 수정하고 싶다고 persist를 하면 안된다!
+
+ */
             tx.commit(); // 이 시점에 쿼리 날라감
         } catch (Exception e) {
             tx.rollback();
