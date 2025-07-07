@@ -16,25 +16,47 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            //team.getMembers().add(member);
+            em.persist(team);
 
-            Member mm = new Member(3L, "a");
-            Member ms = new Member(4L, "b");
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeam(team); //연관관계의 주인에 꼭 값 설정.
+            em.persist(member);
+
+
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for (Member member1 : members) {
+                System.out.println("member1.getUsername() = " + member1.getUsername());
+                
+            }
+
+            /*
+            //Member mm = new Member(3L, "a");
+            //Member ms = new Member(4L, "b");
             //System.out.println("result = " + (ms==ms)); //true
             //System.out.println("result = " + (ms==mm)); //false
-            Member member1 = em.find(Member.class, 3L);
+            //Member member1 = em.find(Member.class, 3L);
             System.out.println("======"); //실행해보면 이 전에 절대 쿼리 날라가지 않는다.
-/*
+
             //엔티티를 생성한 상태(비영속)
             Member member = new Member();
-            member.setId(4L);
-            member.setName("helloD");
+            member.setId(8L);
+            member.setUsername("helloD");
 
             //엔티티를 영속
             System.out.println("=== before ===");
             em.persist(member); //db를 영속
             System.out.println("=== after ===");
 
-
+            /*
             //조회
             Member member1 = em.find(Member.class, 3L);
             System.out.println("member1.getName() = " + member1.getName());
